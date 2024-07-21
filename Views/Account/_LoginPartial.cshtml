@@ -1,0 +1,26 @@
+@model Libreria.ViewModels.LoginViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <div class="mb-3">
+            <label for="Username" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="Username" name="Username" required />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="Password" name="Password" required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="RememberMe" name="RememberMe" />
+            <label class="form-check-label" for="RememberMe">Recordarme</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+        <span asp-validation-summary="All" class="text-danger"></span>
+    </form>
+</div>
