@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Libreria.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240719180155_InitialCreate")]
+    [Migration("20240722012408_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -74,7 +74,7 @@ namespace Libreria.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("DiscountPercentage")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5, 2)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -106,7 +106,7 @@ namespace Libreria.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("DiscountPercentage")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5, 2)");
 
                     b.HasKey("Id");
 
@@ -193,12 +193,17 @@ namespace Libreria.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetRoles", (string)null);
 
@@ -208,6 +213,12 @@ namespace Libreria.Migrations
                             Id = "admin-role-id",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "seller-role-id",
+                            Name = "Seller",
+                            NormalizedName = "SELLER"
                         });
                 });
 
@@ -231,7 +242,6 @@ namespace Libreria.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -260,7 +270,6 @@ namespace Libreria.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -297,21 +306,43 @@ namespace Libreria.Migrations
                         {
                             Id = "admin-id",
                             AccessFailedCount = 0,
-                            Address = "Admin Address",
-                            ConcurrencyStamp = "03d5f05d-782c-4fce-9222-6426853f9d3b",
-                            DateOfBirth = new DateTime(2024, 7, 19, 14, 1, 54, 790, DateTimeKind.Local).AddTicks(3860),
+                            Address = "123 Admin St.",
+                            ConcurrencyStamp = "bd2cbba0-fc04-4ffb-94ed-de23c4f5c728",
+                            DateOfBirth = new DateTime(1994, 7, 21, 21, 24, 7, 788, DateTimeKind.Local).AddTicks(660),
                             Email = "admin@example.com",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             FullName = "Admin User",
                             LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH1SMoYO7u5nx0TDtGj9T4oNeC0+B1WOtlT8iEDvGRBGpi0I5NIzVLxp5L/vU6fWjg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHfnD0yfYq02f+YurCau3AsumLZq3qfml3D/00C7/ShXaxSGkAfB8iurpSUBxw2tBg==",
                             PhoneNumber = "123456789",
-                            PhoneNumberConfirmed = false,
-                            Rut = "admin-rut",
-                            SecurityStamp = "490e503f-7b62-4660-b143-3b3f954770bf",
+                            PhoneNumberConfirmed = true,
+                            Rut = "12345678-9",
+                            SecurityStamp = "54c17eea-8cc2-43d0-8b06-2c25c07a07a9",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "seller-id",
+                            AccessFailedCount = 0,
+                            Address = "456 Seller Ave.",
+                            ConcurrencyStamp = "6b0174fe-2f79-479f-99fc-c0644deb56ff",
+                            DateOfBirth = new DateTime(1999, 7, 21, 21, 24, 7, 832, DateTimeKind.Local).AddTicks(3640),
+                            Email = "seller@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Seller User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SELLER@EXAMPLE.COM",
+                            NormalizedUserName = "SELLER",
+                            PasswordHash = "AQAAAAIAAYagAAAAECihZo+So4QWDlgEitMVMnTN4V5NHer5bMML238iVfkQy/nISeGuTMMa3MjAELjC4Q==",
+                            PhoneNumber = "987654321",
+                            PhoneNumberConfirmed = true,
+                            Rut = "98765432-1",
+                            SecurityStamp = "4f88e19f-afc6-44e7-93b1-d0b9dac8067c",
+                            TwoFactorEnabled = false,
+                            UserName = "seller"
                         });
                 });
 
@@ -406,6 +437,11 @@ namespace Libreria.Migrations
                         {
                             UserId = "admin-id",
                             RoleId = "admin-role-id"
+                        },
+                        new
+                        {
+                            UserId = "seller-id",
+                            RoleId = "seller-role-id"
                         });
                 });
 
@@ -454,6 +490,13 @@ namespace Libreria.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Libreria.Models.Role", b =>
+                {
+                    b.HasOne("Libreria.Models.User", null)
+                        .WithMany("Role")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -515,6 +558,11 @@ namespace Libreria.Migrations
             modelBuilder.Entity("Libreria.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Libreria.Models.User", b =>
+                {
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

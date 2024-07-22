@@ -51,21 +51,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Middleware personalizado para redirigir administradores
-app.Use(async (context, next) =>
-{
-    if (context.User.Identity.IsAuthenticated)
-    {
-        if (context.User.IsInRole("Administrator") && context.Request.Path == "/")
-        {
-            context.Response.Redirect("/Admin/Index");
-            return;
-        }
-    }
-
-    await next();
-});
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

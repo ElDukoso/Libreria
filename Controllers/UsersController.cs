@@ -48,7 +48,6 @@ namespace Libreria.Controllers
         {
             return View();
         }
-
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,13 +55,10 @@ namespace Libreria.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Rut,FullName,Address,DateOfBirth,PhoneNumber,Email,Id,UserName,NormalizedUserName,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
         {
-            if (ModelState.IsValid)
-            {
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(user);
         }
 
         // GET: Users/Edit/5

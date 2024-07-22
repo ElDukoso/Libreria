@@ -47,5 +47,39 @@ namespace Libreria.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(CreateUserViewModel model)
+        {
+            
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Address = model.Address,
+                    DateOfBirth = model.DateOfBirth,
+                    Rut = model.Rut,
+                    PhoneNumber = model.PhoneNumber
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    // Asignar el rol al usuario
+                    await _userManager.AddToRoleAsync(user, model.Role);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            
+
+            return View(model);
+        }
+
     }
+
 }

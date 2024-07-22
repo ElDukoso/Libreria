@@ -13,4 +13,14 @@ namespace Libreria.Controllers
 
         // Aquí puedes agregar más acciones para gestionar libros, usuarios, etc.
     }
+    [Authorize(Roles = "Seller")]
+    public class sellerUser : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // Aquí puedes agregar más acciones para gestionar libros, usuarios, etc.
+    }
 }
