@@ -1,47 +1,50 @@
 @model Libreria.Models.OrderDetail
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle de la venta";
 }
 
-<h1>Detalle de la venta</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Detalle de la venta</h1>
 
-<div>
-    <h4>OrderDetail</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Order)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Order.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Book)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Book.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UnitPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UnitPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subtotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subtotal)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Volver</a>
+    <div class="mb-3">
+        <h4>Detalles de la Venta</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Order)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Order.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Book)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Book.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UnitPrice)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Subtotal)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Subtotal)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="text-end">
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
 </div>
