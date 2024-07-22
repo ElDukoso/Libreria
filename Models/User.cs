@@ -8,7 +8,6 @@ namespace Libreria.Models
         public string FullName { get; set; }
         public string Address { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public ICollection<Role> Role { get; set; }
     }
 }
 

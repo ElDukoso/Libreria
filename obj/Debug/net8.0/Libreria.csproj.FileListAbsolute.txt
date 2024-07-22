@@ -257,3 +257,4 @@
 /Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/obj/Debug/net8.0/Libreria.pdb
 /Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/obj/Debug/net8.0/Libreria.genruntimeconfig.cache
 /Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/obj/Debug/net8.0/ref/Libreria.dll
+/Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/obj/Debug/net8.0/Libreria.sourcelink.json

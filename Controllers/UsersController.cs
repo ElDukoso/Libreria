@@ -22,46 +22,87 @@ namespace Libreria.Controllers
             _context = context;
         }
 
-         // GET: Users
+        // GET: Users
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
         }
-    
+        // GET: Users/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
         // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user, string Password, string role)
+        public async Task<IActionResult> Create(User user, string password, string role)
         {
-            
-                // Crear el usuario
-                var result = await _userManager.CreateAsync(user, Password);
-
-                if (result.Succeeded)
+            // Validar la contraseña
+            var passwordErrors = ValidatePassword(password);
+            if (passwordErrors.Any())
+            {
+                foreach (var error in passwordErrors)
                 {
-                    // Asignar el rol
-                    if (!string.IsNullOrEmpty(role) && await _roleManager.RoleExistsAsync(role))
-                    {
-                        await _userManager.AddToRoleAsync(user, role);
-                    await _context.SaveChangesAsync();
-                    }
+                    ModelState.AddModelError("Password", error);
+                }
+                return View(user);
+            }
 
-                    return RedirectToAction(nameof(Index));
+            // Crear el usuario
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                // Asignar el rol
+                if (!string.IsNullOrEmpty(role) && await _roleManager.RoleExistsAsync(role))
+                {
+                    await _userManager.AddToRoleAsync(user, role);
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            
+                return RedirectToAction(nameof(Index));
+            }
 
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
             return View(user);
+        }
+
+        private IEnumerable<string> ValidatePassword(string password)
+        {
+            var errors = new List<string>();
+
+            if (password.Length < 6)
+            {
+                errors.Add("La contraseña debe tener al menos 6 caracteres.");
+            }
+            if (!password.Any(char.IsLower))
+            {
+                errors.Add("La contraseña debe contener al menos una letra minúscula.");
+            }
+
+            // Agregar más reglas de validación si es necesario
+
+            return errors;
         }
 
         // GET: Users/Edit/5
@@ -71,7 +112,7 @@ namespace Libreria.Controllers
             {
                 return NotFound();
             }
-
+            
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
@@ -152,4 +193,6 @@ namespace Libreria.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
     }
+
+
 }

@@ -16,15 +16,12 @@ builder.Services.AddDbContext<LibreriaContext>(options =>
 
 builder.Services.AddIdentity<User, Role>(options =>
 {
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
+    options.Password.RequiredLength = 6; // Longitud mínima de la contraseña
+    options.Password.RequireDigit = false; // No requiere dígitos
+    options.Password.RequireLowercase = true; // Requiere al menos una letra minúscula
+    options.Password.RequireUppercase = false; // No requiere letra mayúscula
+    options.Password.RequireNonAlphanumeric = false; // No requiere caracteres especiales
+    options.Password.RequiredUniqueChars = 1; // Requiere al menos un carácter único
     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
 })

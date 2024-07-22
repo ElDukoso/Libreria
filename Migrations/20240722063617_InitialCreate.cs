@@ -14,6 +14,20 @@ namespace Libreria.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -93,23 +107,24 @@ namespace Libreria.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,6 +162,30 @@ namespace Libreria.Migrations
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -194,51 +233,6 @@ namespace Libreria.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderDetails",
                 columns: table => new
                 {
@@ -269,11 +263,11 @@ namespace Libreria.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "UserId" },
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "admin-role-id", null, "Administrator", "ADMINISTRATOR", null },
-                    { "seller-role-id", null, "Seller", "SELLER", null }
+                    { "admin-role-id", null, "Administrator", "ADMINISTRATOR" },
+                    { "seller-role-id", null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.InsertData(
@@ -281,8 +275,8 @@ namespace Libreria.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Rut", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-id", 0, "123 Admin St.", "0a40beb9-deeb-4ff2-8dc9-a8bcaa1202e0", new DateTime(1994, 7, 21, 22, 16, 43, 530, DateTimeKind.Local).AddTicks(5670), "admin@example.com", true, "Admin User", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEEKSkjYdmH7Xow3NYzBN22ed3NVtpR9LPzc59M8Q/zgk9OEQI/0cbEFBGNo1cEJ/lQ==", "123456789", true, "12345678-9", "ae876e0c-1e5e-48f1-b124-1e9251464bf3", false, "admin" },
-                    { "seller-id", 0, "456 Seller Ave.", "3b0f692c-a352-4b17-8a39-103fee542f5f", new DateTime(1999, 7, 21, 22, 16, 43, 573, DateTimeKind.Local).AddTicks(290), "seller@example.com", true, "Seller User", false, null, "SELLER@EXAMPLE.COM", "SELLER", "AQAAAAIAAYagAAAAEORWgIu3Yf6GckuA3OY17cpYuE61IUdFrP461Nw9tB2rkoyyZ349wfI+PiCfW268Iw==", "987654321", true, "98765432-1", "fdd64c7f-f49d-4601-9dcc-a0f91ac47d49", false, "seller" }
+                    { "admin-id", 0, "123 Admin St.", "7d59a165-839b-4b66-9c4e-e0bcfcfd1254", new DateTime(1994, 7, 22, 2, 36, 17, 302, DateTimeKind.Local).AddTicks(3080), "admin@example.com", true, "Admin User", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAED0aph6zlsLcolR6RKcQ2oHzfLNtWj4rbo/XOeAR9xmafm2aZu7nFwFk5FdARKI7gA==", "123456789", true, "12345678-9", "e4f9a479-130d-48c2-a281-4432ea16e0e1", false, "admin" },
+                    { "seller-id", 0, "456 Seller Ave.", "329dd64c-6f23-4a8f-8152-9d9ffe9b8e82", new DateTime(1999, 7, 22, 2, 36, 17, 343, DateTimeKind.Local).AddTicks(6460), "seller@example.com", true, "Seller User", false, null, "SELLER@EXAMPLE.COM", "SELLER", "AQAAAAIAAYagAAAAEPne8NG15ShCIF4R45K7UsRUSWw0zL1PhraKYFPsPV1L83SAKZXeEDYbulYA/r0jQA==", "987654321", true, "98765432-1", "34d5ab9c-a3db-4913-b9f3-a8a9b6b0c36a", false, "seller" }
                 });
 
             migrationBuilder.InsertData(
@@ -303,11 +297,6 @@ namespace Libreria.Migrations
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoles_UserId",
-                table: "AspNetRoles",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -387,13 +376,13 @@ namespace Libreria.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Customers");
