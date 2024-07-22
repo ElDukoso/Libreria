@@ -13,43 +13,70 @@
             justify-content: center;
             margin-top: 20px;
         }
+        .navbar-brand, .nav-link {
+            font-weight: bold;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+        }
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Libreria</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Clientes</a>
+                                <a class="nav-link" asp-area="" asp-controller="Customers" asp-action="Index">Clientes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="OrderDetails" asp-action="Index">Realizar Venta</a>
+                                <a class="nav-link" asp-area="" asp-controller="OrderDetails" asp-action="Index">Realizar Venta</a>
                             </li>
                             @if (User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Gestionar Libros</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Books" asp-action="Index">Gestionar Libros</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Gestionar Vendedores</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Gestionar Vendedores</a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a>
+                                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a>
                             </li>
                         }
                     </ul>
@@ -97,7 +124,7 @@
         </div>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted text-center">
         <div class="container">
             &copy; 2024 - Libreria - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>

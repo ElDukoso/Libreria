@@ -49,30 +49,57 @@ namespace Libreria.Controllers
         // GET: OrderDetails/Create
         public IActionResult Create()
         {
-            var orders = _context.Orders.ToList();
             var books = _context.Books.ToList();
 
-            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id") : new SelectList(Enumerable.Empty<Order>());
-            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title") : new SelectList(Enumerable.Empty<Book>());
+            ViewBag.BookId = new SelectList(books, "Id", "Title");
             return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetBookPrice(int bookId)
+        {
+            var book = await _context.Books.FindAsync(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return Json(new { price = book.Price });
         }
 
         // POST: OrderDetails/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,OrderId,BookId,Quantity,UnitPrice,Subtotal")] OrderDetail orderDetail)
+        public async Task<IActionResult> Create([Bind("OrderId,BookId,Quantity")] OrderDetail orderDetail)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(orderDetail);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            var orders = _context.Orders.ToList();
-            var books = _context.Books.ToList();
 
-            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id", orderDetail.OrderId) : new SelectList(Enumerable.Empty<Order>());
-            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title", orderDetail.BookId) : new SelectList(Enumerable.Empty<Book>());
+           var book = await _context.Books.FindAsync(orderDetail.BookId);
+                if (book != null)
+                {
+                    orderDetail.UnitPrice = book.Price;
+                    orderDetail.Subtotal = orderDetail.Quantity * orderDetail.UnitPrice;
+
+                    // Genera una nueva orden si no se proporciona una
+                    if (orderDetail.OrderId == 0)
+                    {
+                        var newOrder = new Order
+                        {
+                            CustomerId = 1, // Cambia esto según tu lógica de negocio
+                            Date = DateTime.Now,
+                            Total = orderDetail.Subtotal
+                        };
+                        _context.Orders.Add(newOrder);
+                        await _context.SaveChangesAsync();
+                        orderDetail.OrderId = newOrder.Id;
+                    }
+
+                    _context.Add(orderDetail);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", "Selected book not found.");
+            
+
+            var books = _context.Books.ToList();
+            ViewBag.BookId = new SelectList(books, "Id", "Title", orderDetail.BookId);
             return View(orderDetail);
         }
 
@@ -90,11 +117,9 @@ namespace Libreria.Controllers
                 return NotFound();
             }
 
-            var orders = _context.Orders.ToList();
             var books = _context.Books.ToList();
 
-            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id", orderDetail.OrderId) : new SelectList(Enumerable.Empty<Order>());
-            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title", orderDetail.BookId) : new SelectList(Enumerable.Empty<Book>());
+            ViewBag.BookId = new SelectList(books, "Id", "Title", orderDetail.BookId);
             return View(orderDetail);
         }
 
@@ -112,8 +137,20 @@ namespace Libreria.Controllers
             {
                 try
                 {
-                    _context.Update(orderDetail);
-                    await _context.SaveChangesAsync();
+                    var book = await _context.Books.FindAsync(orderDetail.BookId);
+                    if (book != null)
+                    {
+                        orderDetail.UnitPrice = book.Price;
+                        orderDetail.Subtotal = orderDetail.Quantity * orderDetail.UnitPrice;
+
+                        _context.Update(orderDetail);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Selected book not found.");
+                        return View(orderDetail);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,11 +166,8 @@ namespace Libreria.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var orders = _context.Orders.ToList();
             var books = _context.Books.ToList();
-
-            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id", orderDetail.OrderId) : new SelectList(Enumerable.Empty<Order>());
-            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title", orderDetail.BookId) : new SelectList(Enumerable.Empty<Book>());
+            ViewBag.BookId = new SelectList(books, "Id", "Title", orderDetail.BookId);
             return View(orderDetail);
         }
 

@@ -13,26 +13,17 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="OrderId" class="control-label"></label>
-                <select asp-for="OrderId" class="form-control" asp-items="ViewBag.OrderId"></select>
-            </div>
-            <div class="form-group">
                 <label asp-for="BookId" class="control-label"></label>
-                <select asp-for="BookId" class="form-control" asp-items="ViewBag.BookId"></select>
+                <select asp-for="BookId" class="form-control" asp-items="ViewBag.BookId" id="BookId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
+                <input asp-for="Quantity" class="form-control" id="Quantity" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UnitPrice" class="control-label"></label>
-                <input asp-for="UnitPrice" class="form-control" />
-                <span asp-validation-for="UnitPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Subtotal" class="control-label"></label>
-                <input asp-for="Subtotal" class="form-control" readonly />
+                <input asp-for="Subtotal" class="form-control" id="Subtotal" readonly />
                 <span asp-validation-for="Subtotal" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,12 +43,20 @@
         $(document).ready(function() {
             function updateSubtotal() {
                 var quantity = parseFloat($("#Quantity").val()) || 0;
-                var unitPrice = parseFloat($("#UnitPrice").val()) || 0;
-                var subtotal = quantity * unitPrice;
-                $("#Subtotal").val(subtotal);
+                var bookId = $("#BookId").val();
+                $.ajax({
+                    url: '@Url.Action("GetBookPrice", "OrderDetails")',
+                    type: 'GET',
+                    data: { bookId: bookId },
+                    success: function(response) {
+                        var unitPrice = response.price || 0;
+                        var subtotal = quantity * unitPrice;
+                        $("#Subtotal").val(subtotal);
+                    }
+                });
             }
-            
-            $("#Quantity, #UnitPrice").on("input", updateSubtotal);
+
+            $("#BookId, #Quantity").on("change input", updateSubtotal);
         });
     </script>
 }
