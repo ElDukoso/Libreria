@@ -1,66 +1,68 @@
 @model Libreria.Models.Customer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Customer";
 }
 
-<h1>Crear cliente</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Crear Cliente</h1>
 
-<h4>Cliente</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+    <form asp-action="Create" class="needs-validation" novalidate>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Rut" class="control-label"></label>
+            <div class="col-md-6">
+                <label asp-for="Rut" class="form-label"></label>
                 <input asp-for="Rut" class="form-control" />
                 <span asp-validation-for="Rut" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="DateOfBirth" class="form-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" type="date" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+            <div class="col-md-6">
+                <label asp-for="PhoneNumber" class="form-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DiscountApplied" /> @Html.DisplayNameFor(model =>
-                    model.DiscountApplied)
+            <div class="col-md-6 form-check">
+                <input class="form-check-input" type="checkbox" asp-for="DiscountApplied" />
+                <label class="form-check-label" asp-for="DiscountApplied">
+                    @Html.DisplayNameFor(model => model.DiscountApplied)
                 </label>
             </div>
-            <div class="form-group">
-                <label asp-for="DiscountPercentage" class="control-label"></label>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="DiscountPercentage" class="form-label"></label>
                 <input asp-for="DiscountPercentage" class="form-control" />
                 <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Volver</a>
+<div class="container mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
