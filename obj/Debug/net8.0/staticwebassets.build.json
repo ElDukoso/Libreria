@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9kBjYLAmkF0F8v/Q74aAuHCzswhmmm4HzOi+URO4D7Y=",
+  "Hash": "MHOfeNYYlOLNnBIshapctCgj1IgN2YzEHKmscUYzVB8=",
   "Source": "Libreria",
   "BasePath": "_content/Libreria",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/wwwroot/images/book-haven-logo.png",
+      "SourceId": "Libreria",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/wwwroot/",
+      "BasePath": "_content/Libreria",
+      "RelativePath": "images/book-haven-logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/book-haven-logo.png"
     },
     {
       "Identity": "/Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/wwwroot/js/site.js",

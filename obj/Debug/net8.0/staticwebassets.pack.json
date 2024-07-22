@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/wwwroot/images/book-haven-logo.png",
+      "PackagePath": "staticwebassets/images/book-haven-logo.png"
+    },
+    {
       "Id": "/Users/erickkirch/Desktop/Proyecto Final/proyecto final 2/Libreria/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },
