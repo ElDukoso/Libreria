@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Libreria.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240722012408_InitialCreate")]
+    [Migration("20240722021644_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -307,19 +307,19 @@ namespace Libreria.Migrations
                             Id = "admin-id",
                             AccessFailedCount = 0,
                             Address = "123 Admin St.",
-                            ConcurrencyStamp = "bd2cbba0-fc04-4ffb-94ed-de23c4f5c728",
-                            DateOfBirth = new DateTime(1994, 7, 21, 21, 24, 7, 788, DateTimeKind.Local).AddTicks(660),
+                            ConcurrencyStamp = "0a40beb9-deeb-4ff2-8dc9-a8bcaa1202e0",
+                            DateOfBirth = new DateTime(1994, 7, 21, 22, 16, 43, 530, DateTimeKind.Local).AddTicks(5670),
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             FullName = "Admin User",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHfnD0yfYq02f+YurCau3AsumLZq3qfml3D/00C7/ShXaxSGkAfB8iurpSUBxw2tBg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEKSkjYdmH7Xow3NYzBN22ed3NVtpR9LPzc59M8Q/zgk9OEQI/0cbEFBGNo1cEJ/lQ==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = true,
                             Rut = "12345678-9",
-                            SecurityStamp = "54c17eea-8cc2-43d0-8b06-2c25c07a07a9",
+                            SecurityStamp = "ae876e0c-1e5e-48f1-b124-1e9251464bf3",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -328,19 +328,19 @@ namespace Libreria.Migrations
                             Id = "seller-id",
                             AccessFailedCount = 0,
                             Address = "456 Seller Ave.",
-                            ConcurrencyStamp = "6b0174fe-2f79-479f-99fc-c0644deb56ff",
-                            DateOfBirth = new DateTime(1999, 7, 21, 21, 24, 7, 832, DateTimeKind.Local).AddTicks(3640),
+                            ConcurrencyStamp = "3b0f692c-a352-4b17-8a39-103fee542f5f",
+                            DateOfBirth = new DateTime(1999, 7, 21, 22, 16, 43, 573, DateTimeKind.Local).AddTicks(290),
                             Email = "seller@example.com",
                             EmailConfirmed = true,
                             FullName = "Seller User",
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EXAMPLE.COM",
                             NormalizedUserName = "SELLER",
-                            PasswordHash = "AQAAAAIAAYagAAAAECihZo+So4QWDlgEitMVMnTN4V5NHer5bMML238iVfkQy/nISeGuTMMa3MjAELjC4Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEORWgIu3Yf6GckuA3OY17cpYuE61IUdFrP461Nw9tB2rkoyyZ349wfI+PiCfW268Iw==",
                             PhoneNumber = "987654321",
                             PhoneNumberConfirmed = true,
                             Rut = "98765432-1",
-                            SecurityStamp = "4f88e19f-afc6-44e7-93b1-d0b9dac8067c",
+                            SecurityStamp = "fdd64c7f-f49d-4601-9dcc-a0f91ac47d49",
                             TwoFactorEnabled = false,
                             UserName = "seller"
                         });
