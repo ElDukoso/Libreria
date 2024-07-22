@@ -49,14 +49,15 @@ namespace Libreria.Controllers
         // GET: OrderDetails/Create
         public IActionResult Create()
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "Id");
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id");
+            var orders = _context.Orders.ToList();
+            var books = _context.Books.ToList();
+
+            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id") : new SelectList(Enumerable.Empty<Order>());
+            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title") : new SelectList(Enumerable.Empty<Book>());
             return View();
         }
 
         // POST: OrderDetails/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,OrderId,BookId,Quantity,UnitPrice,Subtotal")] OrderDetail orderDetail)
@@ -67,8 +68,11 @@ namespace Libreria.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "Id", orderDetail.BookId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", orderDetail.OrderId);
+            var orders = _context.Orders.ToList();
+            var books = _context.Books.ToList();
+
+            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id", orderDetail.OrderId) : new SelectList(Enumerable.Empty<Order>());
+            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title", orderDetail.BookId) : new SelectList(Enumerable.Empty<Book>());
             return View(orderDetail);
         }
 
@@ -85,14 +89,16 @@ namespace Libreria.Controllers
             {
                 return NotFound();
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "Id", orderDetail.BookId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", orderDetail.OrderId);
+
+            var orders = _context.Orders.ToList();
+            var books = _context.Books.ToList();
+
+            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id", orderDetail.OrderId) : new SelectList(Enumerable.Empty<Order>());
+            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title", orderDetail.BookId) : new SelectList(Enumerable.Empty<Book>());
             return View(orderDetail);
         }
 
         // POST: OrderDetails/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,OrderId,BookId,Quantity,UnitPrice,Subtotal")] OrderDetail orderDetail)
@@ -122,8 +128,12 @@ namespace Libreria.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "Id", orderDetail.BookId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", orderDetail.OrderId);
+
+            var orders = _context.Orders.ToList();
+            var books = _context.Books.ToList();
+
+            ViewBag.OrderId = orders.Any() ? new SelectList(orders, "Id", "Id", orderDetail.OrderId) : new SelectList(Enumerable.Empty<Order>());
+            ViewBag.BookId = books.Any() ? new SelectList(books, "Id", "Title", orderDetail.BookId) : new SelectList(Enumerable.Empty<Book>());
             return View(orderDetail);
         }
 
