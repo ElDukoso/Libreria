@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,8 @@ using Libreria.Data;
 using Libreria.Models;
 
 namespace Libreria.Controllers
-{
+{  
+     [Authorize]
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -22,11 +24,14 @@ namespace Libreria.Controllers
             _context = context;
         }
 
+        [Authorize]
         // GET: Users
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
         }
+
+        [Authorize]
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -44,13 +49,13 @@ namespace Libreria.Controllers
 
             return View(user);
         }
-
+        [Authorize]
         // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user, string password, string role)
@@ -86,7 +91,7 @@ namespace Libreria.Controllers
             }
             return View(user);
         }
-
+        [Authorize]
         private IEnumerable<string> ValidatePassword(string password)
         {
             var errors = new List<string>();
@@ -104,7 +109,7 @@ namespace Libreria.Controllers
 
             return errors;
         }
-
+        [Authorize]
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -121,7 +126,7 @@ namespace Libreria.Controllers
 
             return View(user);
         }
-
+        [Authorize]
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,7 +159,8 @@ namespace Libreria.Controllers
             }
             return View(user);
         }
-
+        
+        [Authorize]
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
@@ -172,7 +178,7 @@ namespace Libreria.Controllers
 
             return View(user);
         }
-
+        [Authorize]
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

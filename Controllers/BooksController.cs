@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Libreria.Data;
 using Libreria.Models;
 
 namespace Libreria.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly LibreriaContext _context;
@@ -25,6 +27,7 @@ namespace Libreria.Controllers
             return View(await _context.Books.ToListAsync());
         }
 
+        [Authorize]
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,12 +46,14 @@ namespace Libreria.Controllers
             return View(book);
         }
 
+        [Authorize]
         // GET: Books/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         // POST: Books/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -65,6 +70,7 @@ namespace Libreria.Controllers
             return View(book);
         }
 
+        [Authorize]
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -81,6 +87,8 @@ namespace Libreria.Controllers
             return View(book);
         }
 
+
+        [Authorize]
         // POST: Books/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -116,6 +124,7 @@ namespace Libreria.Controllers
             return View(book);
         }
 
+        [Authorize]
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,6 +143,7 @@ namespace Libreria.Controllers
             return View(book);
         }
 
+        [Authorize]
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

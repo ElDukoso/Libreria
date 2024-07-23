@@ -11,6 +11,11 @@
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="mb-3">
+            <label asp-for="CustomerId" class="form-label"></label>
+            <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId" id="CustomerId"></select>
+        </div>
+
+        <div class="mb-3">
             <label asp-for="BookId" class="form-label"></label>
             <select asp-for="BookId" class="form-select" asp-items="ViewBag.BookId" id="BookId"></select>
         </div>
@@ -47,13 +52,14 @@
                     data: { bookId: bookId },
                     success: function(response) {
                         var unitPrice = response.price || 0;
-                        var subtotal = quantity * unitPrice;
-                        $("#Subtotal").val(subtotal);
+                        var discountPercentage = parseFloat($("#CustomerId").find("option:selected").data("discount")) || 0;
+                        var subtotal = quantity * unitPrice * (1 - discountPercentage / 100);
+                        $("#Subtotal").val(subtotal.toFixed(2));
                     }
                 });
             }
 
-            $("#BookId, #Quantity").on("change input", updateSubtotal);
+            $("#BookId, #Quantity, #CustomerId").on("change input", updateSubtotal);
         });
     </script>
 }

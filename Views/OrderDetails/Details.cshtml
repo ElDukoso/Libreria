@@ -7,41 +7,68 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">Detalle de la venta</h1>
 
-    <div class="mb-3">
-        <h4>Detalles de la Venta</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Order)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Order.Id)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Book)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Book.Title)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Quantity)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Quantity)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.UnitPrice)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.UnitPrice)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Subtotal)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Subtotal)
-            </dd>
-        </dl>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4>Detalles de la Venta</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Order)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Order.Id)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Book)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Book.Title)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Quantity)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.UnitPrice)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.UnitPrice)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Subtotal)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Subtotal)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.User)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.FullName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Order.Customer)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Order.Customer.Name)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Order.Customer.Rut)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Order.Customer.Rut)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Order.Customer.Email)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Order.Customer.Email)
+                </dd>
+            </dl>
+        </div>
     </div>
 
     <div class="text-end">

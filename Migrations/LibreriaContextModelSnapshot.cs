@@ -152,6 +152,9 @@ namespace Libreria.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
@@ -164,11 +167,19 @@ namespace Libreria.Migrations
                     b.Property<int>("UnitPrice")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -299,19 +310,19 @@ namespace Libreria.Migrations
                             Id = "admin-id",
                             AccessFailedCount = 0,
                             Address = "123 Admin St.",
-                            ConcurrencyStamp = "e7ff4ddd-c3c3-4f50-a735-4bafcfcc88bc",
-                            DateOfBirth = new DateTime(1994, 7, 22, 13, 6, 59, 280, DateTimeKind.Local).AddTicks(7730),
+                            ConcurrencyStamp = "9361515c-f0c7-482e-8c51-3f9bac68493e",
+                            DateOfBirth = new DateTime(1994, 7, 22, 17, 45, 18, 237, DateTimeKind.Local).AddTicks(8730),
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             FullName = "Admin User",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGBkkl8NX6GlwRhpE9f1vAfbpPQrsWMXNBBf9TDPKqNG0AI0qzDk9JePXIakfO9kkQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBynofvNFOI9P7zDOLRxqfR1ruFZPlGs9WPMXhXqgOtZ9DZSxquTeSv6GCoRfQk0oQ==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = true,
                             Rut = "12345678-9",
-                            SecurityStamp = "ee3c7f7c-ced2-40e7-ba21-947846b3660c",
+                            SecurityStamp = "237428a0-d7d7-4334-99e6-f8ec9cbdd3ed",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -320,19 +331,19 @@ namespace Libreria.Migrations
                             Id = "seller-id",
                             AccessFailedCount = 0,
                             Address = "456 Seller Ave.",
-                            ConcurrencyStamp = "9d183e92-d8bf-40b6-9fa3-9b22b93285ce",
-                            DateOfBirth = new DateTime(1999, 7, 22, 13, 6, 59, 323, DateTimeKind.Local).AddTicks(3720),
+                            ConcurrencyStamp = "7283a7eb-fc0a-4b19-8d71-a54cea597a46",
+                            DateOfBirth = new DateTime(1999, 7, 22, 17, 45, 18, 280, DateTimeKind.Local).AddTicks(5830),
                             Email = "seller@example.com",
                             EmailConfirmed = true,
                             FullName = "Seller User",
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EXAMPLE.COM",
                             NormalizedUserName = "SELLER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDp2dKsopN/SIhKTziX8agYzvXOTMiqbXg+GVHsXJ4ovUQP+FjDXIwICPGen0aXGJA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL2dTD+dkMD4aOXM5vuqXxJxhWVXvxEXrBqbzfQDtGr23+DpcpqgYtF+8l9GTByizA==",
                             PhoneNumber = "987654321",
                             PhoneNumberConfirmed = true,
                             Rut = "98765432-1",
-                            SecurityStamp = "c846a377-0f42-47a7-8c92-d9d488a27aaa",
+                            SecurityStamp = "ab6bcf2a-2706-4d52-bd47-b664d3d0c638",
                             TwoFactorEnabled = false,
                             UserName = "seller"
                         });
@@ -473,15 +484,31 @@ namespace Libreria.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Libreria.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Libreria.Models.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Libreria.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Book");
 
+                    b.Navigation("Customer");
+
                     b.Navigation("Order");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

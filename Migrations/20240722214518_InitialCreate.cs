@@ -242,15 +242,29 @@ namespace Libreria.Migrations
                     BookId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<int>(type: "int", nullable: false),
-                    Subtotal = table.Column<int>(type: "int", nullable: false)
+                    Subtotal = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderDetails", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_OrderDetails_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_OrderDetails_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -275,8 +289,8 @@ namespace Libreria.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Rut", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "admin-id", 0, "123 Admin St.", "e7ff4ddd-c3c3-4f50-a735-4bafcfcc88bc", new DateTime(1994, 7, 22, 13, 6, 59, 280, DateTimeKind.Local).AddTicks(7730), "admin@example.com", true, "Admin User", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEGBkkl8NX6GlwRhpE9f1vAfbpPQrsWMXNBBf9TDPKqNG0AI0qzDk9JePXIakfO9kkQ==", "123456789", true, "12345678-9", "ee3c7f7c-ced2-40e7-ba21-947846b3660c", false, "admin" },
-                    { "seller-id", 0, "456 Seller Ave.", "9d183e92-d8bf-40b6-9fa3-9b22b93285ce", new DateTime(1999, 7, 22, 13, 6, 59, 323, DateTimeKind.Local).AddTicks(3720), "seller@example.com", true, "Seller User", false, null, "SELLER@EXAMPLE.COM", "SELLER", "AQAAAAIAAYagAAAAEDp2dKsopN/SIhKTziX8agYzvXOTMiqbXg+GVHsXJ4ovUQP+FjDXIwICPGen0aXGJA==", "987654321", true, "98765432-1", "c846a377-0f42-47a7-8c92-d9d488a27aaa", false, "seller" }
+                    { "admin-id", 0, "123 Admin St.", "9361515c-f0c7-482e-8c51-3f9bac68493e", new DateTime(1994, 7, 22, 17, 45, 18, 237, DateTimeKind.Local).AddTicks(8730), "admin@example.com", true, "Admin User", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEBynofvNFOI9P7zDOLRxqfR1ruFZPlGs9WPMXhXqgOtZ9DZSxquTeSv6GCoRfQk0oQ==", "123456789", true, "12345678-9", "237428a0-d7d7-4334-99e6-f8ec9cbdd3ed", false, "admin" },
+                    { "seller-id", 0, "456 Seller Ave.", "7283a7eb-fc0a-4b19-8d71-a54cea597a46", new DateTime(1999, 7, 22, 17, 45, 18, 280, DateTimeKind.Local).AddTicks(5830), "seller@example.com", true, "Seller User", false, null, "SELLER@EXAMPLE.COM", "SELLER", "AQAAAAIAAYagAAAAEL2dTD+dkMD4aOXM5vuqXxJxhWVXvxEXrBqbzfQDtGr23+DpcpqgYtF+8l9GTByizA==", "987654321", true, "98765432-1", "ab6bcf2a-2706-4d52-bd47-b664d3d0c638", false, "seller" }
                 });
 
             migrationBuilder.InsertData(
@@ -338,9 +352,19 @@ namespace Libreria.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_CustomerId",
+                table: "OrderDetails",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderId",
                 table: "OrderDetails",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_UserId",
+                table: "OrderDetails",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
